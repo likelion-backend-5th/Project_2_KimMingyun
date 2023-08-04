@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/api/mutsasns/user")
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
 
     @PutMapping(value = "/profileimage",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -30,7 +30,7 @@ public class UserController {
             @RequestParam("image") MultipartFile Image,
             Authentication authentication
     ){
-        service.updateProfile(Image, authentication);
+        userService.updateProfile(Image, authentication);
 
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("message", "사진이 업로드 되었습니다.");
