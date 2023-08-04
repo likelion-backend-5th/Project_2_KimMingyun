@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,18 +41,36 @@ public class UserEntity extends BaseEntity {
     private boolean deleted;
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "user_id")
     private List<CommentEntity> commentEntities  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "user_id")
     private List<ArticleEntity> articleEntities  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "user_id")
     private List<UserFollowsEntity> userFollowsEntities  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "user_id")
     private List<UserFriendsEntity> userFriendsEntities  = new ArrayList<>();
+
+//    @PreRemove
+//    private void preRemove() {
+//        // Delete the profile image from the file system if it exists
+//        if (profile_img != null && !profile_img.isEmpty()) {
+//            String filePath = "profile/" + id + "/" + username + "." + extractExtension(profile_img);
+//            try {
+//                Files.deleteIfExists(Path.of(filePath));
+//            } catch (IOException e) {
+//                // Handle the exception or log it as needed
+//            }
+//        }
+//    }
+//    private String extractExtension(String filename) {
+//        int lastDotIndex = filename.lastIndexOf('.');
+//        return lastDotIndex >= 0 ? filename.substring(lastDotIndex + 1) : "";
+//    }
+
 }
