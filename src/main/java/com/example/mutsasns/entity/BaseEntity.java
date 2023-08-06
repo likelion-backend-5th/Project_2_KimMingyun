@@ -2,7 +2,6 @@ package com.example.mutsasns.entity;
 
 import com.example.mutsasns.listener.Auditable;
 import jakarta.persistence.*;
-import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Auditable {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -24,7 +23,6 @@ public abstract class BaseEntity implements Auditable {
     @Column(nullable = false)
     private String updatedAt;
 
-    // getters and setters
 
     @Override
     public LocalDateTime getCreatedAt() {

@@ -7,8 +7,11 @@ import com.example.mutsasns.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,5 +51,23 @@ public class FeedController {
             @PathVariable("articleId") Long articleId
     ){
         return feedService.readArticle(articleId);
+    }
+
+
+
+
+
+    @DeleteMapping("/articles/{articleId}")
+    public ResponseEntity<Map<String, String>> deleteComment(
+            @PathVariable("articleId") Long articleId
+    ) {
+        if (feedService.deleteArticle(articleId)) {
+
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("message", "피드를 삭제했습니다.");
+
+            return ResponseEntity.ok(responseBody);
+        }
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 }

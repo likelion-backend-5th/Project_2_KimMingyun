@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class ArticleEntity extends BaseEntity {
     private boolean draft;
 
     private boolean deleted;
+
+    private String deletedAt;
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "article_id")
