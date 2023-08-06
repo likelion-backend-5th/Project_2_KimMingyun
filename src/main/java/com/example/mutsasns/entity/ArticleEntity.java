@@ -33,18 +33,18 @@ public class ArticleEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "article_id")
-    private List<ArticleImagesEntity> articleImagesEntities  = new ArrayList<>();
+    private List<ArticleImagesEntity> articleImages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "article_id")
-    private List<LikeArticleEntity> likeArticleEntities  = new ArrayList<>();
+    private List<LikeArticleEntity> likeArticle = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "article_id")
-    private List<CommentEntity> commentEntities  = new ArrayList<>();
+    private List<CommentEntity> comments  = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
-    private UserEntity userEntity;
+    private UserEntity user;
 
 }

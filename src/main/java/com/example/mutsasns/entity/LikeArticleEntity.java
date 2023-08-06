@@ -25,6 +25,6 @@ public class LikeArticleEntity extends BaseEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // 수정 업뎃 하면 one 쪽 엔티티에서도 반영되게
     @ToString.Exclude
-    private ArticleEntity articleEntity;
+    private ArticleEntity articles;
 
 }

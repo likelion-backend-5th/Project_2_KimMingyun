@@ -26,7 +26,7 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false )// , unique = true
     private String username;
 
     @Column(nullable = false)
@@ -42,19 +42,19 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private List<CommentEntity> commentEntities  = new ArrayList<>();
+    private List<CommentEntity> comments  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private List<ArticleEntity> articleEntities  = new ArrayList<>();
+    private List<ArticleEntity> articles  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private List<UserFollowsEntity> userFollowsEntities  = new ArrayList<>();
+    private List<UserFollowsEntity> userFollows  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private List<UserFriendsEntity> userFriendsEntities  = new ArrayList<>();
+    private List<UserFriendsEntity> userFriends  = new ArrayList<>();
 
 //    @PreRemove
 //    private void preRemove() {

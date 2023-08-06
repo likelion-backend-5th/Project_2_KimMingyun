@@ -27,10 +27,9 @@ public class UserController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Map<String, String>> userProfile(
-            @RequestParam("image") MultipartFile Image,
-            Authentication authentication
+            @RequestParam("image") MultipartFile Image
     ){
-        userService.updateProfile(Image, authentication);
+        userService.updateProfile(Image);
 
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("message", "사진이 업로드 되었습니다.");

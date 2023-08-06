@@ -18,9 +18,9 @@ public class UserFollowsAndUserFriends extends BaseEntity{
     private Long id;
 
     @ManyToOne
-    private UserFollowsEntity userFollowsEntity;
+    private UserFollowsEntity userFollows;
 
     @ManyToOne
-    private UserFriendsEntity userFriendsEntity;
+    private UserFriendsEntity userFriends;
 }
 

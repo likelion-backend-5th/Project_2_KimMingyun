@@ -32,6 +32,7 @@ public class UserFriendsEntity extends BaseEntity {
     @JoinColumn(name = "user_friends_id")
     @ToString.Exclude
     private List<UserFollowsAndUserFriends> userFollowsAndUserFriendsList = new ArrayList<>();
+
     public void addUserFollowsAndUserFriends(UserFollowsAndUserFriends... userFollowsAndUserFriends) {
         Collections.addAll(this.userFollowsAndUserFriendsList, userFollowsAndUserFriends);
     }

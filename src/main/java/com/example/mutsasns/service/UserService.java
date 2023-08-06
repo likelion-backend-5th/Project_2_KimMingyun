@@ -5,7 +5,7 @@ import com.example.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,19 +21,23 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    public void updateProfile(MultipartFile Image, Authentication authentication){
+    public void updateProfile(MultipartFile Image){
 
-        String username = authentication.getName();
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
 
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+
         if (optionalUser.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         else {
             UserEntity user = optionalUser.get();
             Long userId = user.getId();
-            // 2-1. 폴더만 만드는 과정 -> profile/1/
-            String profileDir = String.format("profile/%d/", userId);
+            // 2-1. 폴더만 만드는 과정 -> profile/{username}/1/
+            String profileDir = String.format("profile/%s/%d/",username, userId);
             try {
                 Files.createDirectories(Path.of(profileDir));
             } catch (IOException e) {
@@ -48,7 +52,7 @@ public class UserService {
             // 2-3. 폴더와 파일 경로를 포함한 이름 만들기
 
             String profilePath = profileDir + profileFilename;
-            // profile/1/{username}.jpg
+            // profile/1/{username}.{extension}
 
             // 3. MultipartFile 을 저장하기
             try {

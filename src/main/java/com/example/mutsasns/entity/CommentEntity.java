@@ -26,9 +26,9 @@ public class CommentEntity extends BaseEntity{
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
-    private ArticleEntity articleEntity;
+    private ArticleEntity articles;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
-    private UserEntity userEntity;
+    private UserEntity user;
 }
