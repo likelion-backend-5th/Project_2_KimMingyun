@@ -4,6 +4,7 @@ import com.example.mutsasns.dto.article.ArticleRequestDto;
 import com.example.mutsasns.dto.comment.CommentRequestDto;
 import com.example.mutsasns.entity.ArticleEntity;
 import com.example.mutsasns.entity.CommentEntity;
+import com.example.mutsasns.entity.LikeArticleEntity;
 import com.example.mutsasns.entity.UserEntity;
 import com.example.mutsasns.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -112,4 +113,44 @@ public class CommentLikeService {
         return true;
 
     }
+
+    public int likeArticle(Long articleId){
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+
+        if(optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        UserEntity userEntity = optionalUser.get();
+
+        Optional<ArticleEntity> optionalArticle = articleRepository.findById(articleId);
+
+        if(optionalArticle.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        ArticleEntity articleEntity = optionalArticle.get();
+
+        if(articleEntity.getUser().getUsername().equals(userEntity.getUsername())){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        else{
+            if(!likeArticleRepository.existsByUser(userEntity)) {
+                LikeArticleEntity likeArticleEntity = new LikeArticleEntity();
+                likeArticleEntity.setArticle(articleEntity);
+                likeArticleEntity.setUser(userEntity);
+                likeArticleRepository.save(likeArticleEntity);
+                return 1;
+            }
+            else{
+                likeArticleRepository.delete(likeArticleRepository.findByArticleIdAndUser(articleId, userEntity));
+                return 2;
+            }
+        }
+    }
+
 }

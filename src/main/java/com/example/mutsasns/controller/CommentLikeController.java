@@ -64,4 +64,18 @@ public class CommentLikeController {
         }
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
+    @PutMapping("/article/{articleId}/like")
+    public ResponseEntity<Map<String, String>> likeArticle(
+            @PathVariable("articleId") Long articleId
+    ) {
+        int result = commentLikeService.likeArticle(articleId);
+
+        Map<String, String> responseBody = new HashMap<>();
+        switch (result) {
+            case 1 -> responseBody.put("message", "좋아요를 눌렀습니다.");
+            case 2 -> responseBody.put("message", "좋아요가 취소 되었습니다.");
+            default -> throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(responseBody);
+    }
 }

@@ -50,6 +50,10 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
+    private List<LikeArticleEntity> likeArticles  = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
     private List<UserFollowsEntity> userFollows  = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)

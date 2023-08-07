@@ -3,6 +3,7 @@ package com.example.mutsasns.config;
 import com.example.mutsasns.security.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +26,12 @@ public class WebSecurityConfig {
                                 "/token/register", "/token/login"
                                 // 회원가입         // 로그인
                         ).anonymous()
+                        .requestMatchers(
+                                HttpMethod.GET, "/api/mutsasns/feed/read"
+                        ).permitAll()
+                        .requestMatchers(
+                                "static/**"
+                        ).permitAll()
                         .anyRequest()
                         .authenticated()
                 )
