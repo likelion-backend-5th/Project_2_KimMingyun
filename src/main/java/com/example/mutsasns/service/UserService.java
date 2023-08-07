@@ -36,8 +36,8 @@ public class UserService {
         else {
             UserEntity user = optionalUser.get();
             Long userId = user.getId();
-            // 2-1. 폴더만 만드는 과정 -> profile/{username}/1/
-            String profileDir = String.format("profile/%s/%d/",username, userId);
+            // 2-1. 폴더만 만드는 과정 -> media/profile/{username}/1/
+            String profileDir = String.format("media/profile/%s/%d/",username, userId);
             try {
                 Files.createDirectories(Path.of(profileDir));
             } catch (IOException e) {

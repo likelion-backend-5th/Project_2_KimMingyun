@@ -2,8 +2,11 @@ package com.example.mutsasns.repository;
 
 import com.example.mutsasns.entity.ArticleEntity;
 import com.example.mutsasns.entity.CommentEntity;
+import com.example.mutsasns.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+import java.util.Optional;
 
+public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
+    Optional<CommentEntity> findByArticleIdAndIdAndUser(Long articleId, Long commentId, UserEntity user);
 }

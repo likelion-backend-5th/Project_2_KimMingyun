@@ -34,11 +34,12 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FeedService {
+public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleImagesRepository articleImagesRepository;
     private final UserRepository userRepository;
+
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public ArticleRequestDto createArticle(ArticleRequestDto dto){
@@ -66,7 +67,7 @@ public class FeedService {
 
         if(!(dto.getImageList() == null)){
 
-            String articleImageDir = String.format("article/%s/%d/",username,article.getId());
+            String articleImageDir = String.format("media/article/%s/%d/",username,article.getId());
             try {
                 Files.createDirectories(Path.of(articleImageDir));
             } catch (IOException e) {
@@ -99,7 +100,6 @@ public class FeedService {
                 articleImages.setImage_url(String.format("/static/%s", articleFilename));
                 articleImages.setArticle(article);
                 articleImagesRepository.save(articleImages);
-                article.getArticleImages().add(articleImages);
             }
 
             // 모든 이미지가 저장된 후에 ArticleEntity를 한 번만 저장
@@ -146,7 +146,7 @@ public class FeedService {
 
     }
 
-    public ArticleUpdateDto updateArticle(ArticleUpdateDto  dto){
+    public ArticleUpdateDto updateArticle(ArticleUpdateDto dto, Long articleId){
 
         String username = SecurityContextHolder
                 .getContext()
@@ -160,13 +160,48 @@ public class FeedService {
 
         UserEntity userEntity = optionalUser.get();
 
-        List<ArticleImagesEntity> imagesList = new ArrayList<>();
+        Optional<ArticleEntity> optionalArticle = articleRepository.findByIdAndUser(articleId, userEntity);
 
-        ArticleEntity article = new ArticleEntity();
-        article.setUser(userEntity);
+        if (optionalArticle.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        ArticleEntity article = optionalArticle.get();
+
         article.setTitle(dto.getTitle());
         article.setContent(dto.getContent());
-        article.setArticleImages(imagesList);
+
+
+        int lastImageIndex = article.getArticleImages().size();
+
+
+        List<ArticleImagesEntity> imagesList = new ArrayList<>();
+        if (dto.getImageList() != null) {
+            String articleImageDir = String.format("article/%s/%d/", username, article.getId());
+            for (MultipartFile img : dto.getImageList()) {
+                ArticleImagesEntity articleImages = new ArticleImagesEntity();
+
+                // 확장자를 포함한 이미지 이름 만들기
+                String originalFilename = img.getOriginalFilename();
+                String[] fileNameSplit = originalFilename.split("\\.");
+                String extension = fileNameSplit[fileNameSplit.length - 1];
+                String articleFilename = username + (++lastImageIndex) + "." + extension;
+
+                // 폴더와 파일 경로를 포함한 이름 만들기
+                String articleImagePath = articleImageDir + articleFilename;
+                try {
+                    img.transferTo(Path.of(articleImagePath));
+                } catch (IOException e) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                articleImages.setImage_url(String.format("/static/%s", articleFilename));
+                articleImages.setArticle(article);
+                articleImagesRepository.save(articleImages);
+                imagesList.add(articleImages);
+            }
+        }
+
+        // Add the new images to the article
+        article.getArticleImages().addAll(imagesList);
         articleRepository.save(article);
 
         return ArticleUpdateDto.fromEntity(article);

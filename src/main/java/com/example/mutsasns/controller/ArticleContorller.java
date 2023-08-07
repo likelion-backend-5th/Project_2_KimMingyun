@@ -3,13 +3,13 @@ package com.example.mutsasns.controller;
 import com.example.mutsasns.dto.article.ArticlePageDto;
 import com.example.mutsasns.dto.article.ArticleReadDto;
 import com.example.mutsasns.dto.article.ArticleRequestDto;
-import com.example.mutsasns.service.FeedService;
+import com.example.mutsasns.dto.article.ArticleUpdateDto;
+import com.example.mutsasns.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,16 +20,16 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/mutsasns/feed")
-public class FeedController {
+public class ArticleContorller {
 
-    private final FeedService feedService;
+    private final ArticleService articleService;
 
     @PostMapping("/posting")
     public ResponseEntity<Map<String, String>> create(
             @ModelAttribute("articles") ArticleRequestDto dto
     ){
 
-        feedService.createArticle(dto);
+        articleService.createArticle(dto);
 
         log.info(dto.toString());
         Map<String, String> responseBody = new HashMap<>();
@@ -43,25 +43,36 @@ public class FeedController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "25") Integer limit
     ){
-        return feedService.readArticlePage(page,limit);
+        return articleService.readArticlePage(page,limit);
     }
 
     @GetMapping("/read/{articleId}")
     public ArticleReadDto readArticles(
             @PathVariable("articleId") Long articleId
     ){
-        return feedService.readArticle(articleId);
+        return articleService.readArticle(articleId);
+    }
+
+    @PutMapping("/articles/{articleId}")
+    public ResponseEntity<Map<String, String>> updateArticle(
+            @ModelAttribute("articles") ArticleUpdateDto dto,
+            @PathVariable("articleId") Long articleId
+    ) {
+        articleService.updateArticle(dto, articleId);
+
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "피드를 수정했습니다.");
+
+        return ResponseEntity.ok(responseBody);
     }
 
 
 
-
-
     @DeleteMapping("/articles/{articleId}")
-    public ResponseEntity<Map<String, String>> deleteComment(
+    public ResponseEntity<Map<String, String>> deleteArticle(
             @PathVariable("articleId") Long articleId
     ) {
-        if (feedService.deleteArticle(articleId)) {
+        if (articleService.deleteArticle(articleId)) {
 
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("message", "피드를 삭제했습니다.");

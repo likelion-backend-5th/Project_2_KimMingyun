@@ -24,9 +24,11 @@ public class CommentEntity extends BaseEntity{
 
     private boolean deleted;
 
+    private String deletedAt;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
-    private ArticleEntity articles;
+    private ArticleEntity article;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
