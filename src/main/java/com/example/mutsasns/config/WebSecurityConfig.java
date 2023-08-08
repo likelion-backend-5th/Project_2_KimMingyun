@@ -27,10 +27,10 @@ public class WebSecurityConfig {
                                 // 회원가입         // 로그인
                         ).anonymous()
                         .requestMatchers(
-                                HttpMethod.GET, "/api/mutsasns/feed/read"
+                                HttpMethod.GET, "/api/mutsasns/feed/read", "/api/mutsasns/userInfo/{userId}/read"
                         ).permitAll()
                         .requestMatchers(
-                                "static/**"
+                                "static/**","meida/**"
                         ).permitAll()
                         .anyRequest()
                         .authenticated()

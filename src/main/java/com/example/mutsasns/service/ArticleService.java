@@ -67,14 +67,14 @@ public class ArticleService {
 
         if(!(dto.getImageList() == null)){
 
-            String articleImageDir = String.format("media/article/%s/%d/",username,article.getId());
+            String articleImageDir = String.format("media/article/%d/", article.getId());
             try {
                 Files.createDirectories(Path.of(articleImageDir));
             } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            int i = 1; // 변수 i를 반복문 밖에 선언하고 초기값을 1로 설정
+            int i = 1;
 
             for(MultipartFile img : dto.getImageList()) {
 
@@ -97,7 +97,7 @@ public class ArticleService {
                     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
-                articleImages.setImage_url(String.format("/static/%s", articleFilename));
+                articleImages.setImage_url(String.format("/static/article/%d/%s", article.getId(), articleFilename));
                 articleImages.setArticle(article);
                 articleImagesRepository.save(articleImages);
             }
@@ -146,8 +146,8 @@ public class ArticleService {
 
     }
 
-    public ArticleUpdateDto updateArticle(ArticleUpdateDto dto, Long articleId){
-
+    // update content or title or 이미지 삭제
+    public void updateArticle(ArticleUpdateDto dto, Long articleId){
         String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -162,49 +162,100 @@ public class ArticleService {
 
         Optional<ArticleEntity> optionalArticle = articleRepository.findByIdAndUser(articleId, userEntity);
 
-        if (optionalArticle.isEmpty())
+        if (optionalArticle.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
 
         ArticleEntity article = optionalArticle.get();
 
         article.setTitle(dto.getTitle());
         article.setContent(dto.getContent());
 
-
         int lastImageIndex = article.getArticleImages().size();
 
+        if(!(dto.getUpdateImageList() == null))
+            for(MultipartFile img : dto.getUpdateImageList()){
+                String postImageDir = String.format("media/article/%d/", article.getId());
 
-        List<ArticleImagesEntity> imagesList = new ArrayList<>();
-        if (dto.getImageList() != null) {
-            String articleImageDir = String.format("article/%s/%d/", username, article.getId());
-            for (MultipartFile img : dto.getImageList()) {
-                ArticleImagesEntity articleImages = new ArticleImagesEntity();
+                try {
+                    Files.createDirectories(Path.of(postImageDir));
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
 
                 // 확장자를 포함한 이미지 이름 만들기
                 String originalFilename = img.getOriginalFilename();
                 String[] fileNameSplit = originalFilename.split("\\.");
                 String extension = fileNameSplit[fileNameSplit.length - 1];
-                String articleFilename = username + (++lastImageIndex) + "." + extension;
+                String articleFilename = username + lastImageIndex + "." + extension;
+                lastImageIndex ++; // lastImageIndex를 증가시켜 다음 이미지에 대한 파일 이름 생성
 
-                // 폴더와 파일 경로를 포함한 이름 만들기
-                String articleImagePath = articleImageDir + articleFilename;
+
+                String postImagePath = postImageDir + articleFilename;
                 try {
-                    img.transferTo(Path.of(articleImagePath));
+                    img.transferTo(Path.of(postImagePath));
                 } catch (IOException e) {
+                    log.error(e.getMessage());
                     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                articleImages.setImage_url(String.format("/static/%s", articleFilename));
-                articleImages.setArticle(article);
-                articleImagesRepository.save(articleImages);
-                imagesList.add(articleImages);
-            }
-        }
 
-        // Add the new images to the article
-        article.getArticleImages().addAll(imagesList);
+                ArticleImagesEntity images = new ArticleImagesEntity();
+                images.setImage_url(String.format("/static/article/%d/%s", article.getId(), articleFilename));
+                images.setArticle(article);
+                articleImagesRepository.save(images);
+                article.getArticleImages().add(images);
+            }
+
         articleRepository.save(article);
 
-        return ArticleUpdateDto.fromEntity(article);
+
+    }
+    public void deleteImage(Long articleId, Long imageId) {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        UserEntity userEntity = optionalUser.get();
+
+        Optional<ArticleEntity> optionalArticle = articleRepository.findByIdAndUser(articleId, userEntity);
+
+        if (optionalArticle.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        ArticleEntity article = optionalArticle.get();
+
+
+        Optional<ArticleImagesEntity> articleImages = articleImagesRepository.findById(imageId);
+        if (articleImages.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        ArticleImagesEntity articleImage = articleImages.get();
+
+        if (articleId != articleImage.getArticle().getId()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        String[] split = articleImage.getImage_url().split("/");
+        String name = split[split.length - 1];
+        String imagePath = "media/article/" + articleId + "/" + name;
+
+        // 실제 서버에서 이미지 삭제
+        try {
+            Files.delete(Path.of(imagePath));
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // DB에서 삭제
+        articleImagesRepository.deleteById(imageId);
 
     }
 

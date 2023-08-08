@@ -66,6 +66,30 @@ public class ArticleContorller {
         return ResponseEntity.ok(responseBody);
     }
 
+    // 2-5-1 이미지 삭제 or title/content 수정 or // 이미지 추가는 postmapping 으로 이미 구현해둠
+    @PutMapping("/articles/{articleId}")
+    public ResponseEntity<Map<String, String>> updateArticle(
+            @PathVariable("articleId")Long articleId,
+            @RequestBody ArticleUpdateDto dto)
+
+    {
+        articleService.updateArticle(dto, articleId);
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "피드를 수정했습니다.");
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @PutMapping("/{articleId}/images/{imageId}")
+    public ResponseEntity<Map<String, String>> deleteImage(
+            @PathVariable("articleId") Long articleId,
+            @PathVariable("imageId") Long imageId)
+    {
+        articleService.deleteImage(articleId, imageId);
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "피드에 이미지가 삭제 되었습니다.");
+        return ResponseEntity.ok(responseBody);
+    }
+
 
 
     @DeleteMapping("/articles/{articleId}")

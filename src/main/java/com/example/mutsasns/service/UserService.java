@@ -36,8 +36,8 @@ public class UserService {
         else {
             UserEntity user = optionalUser.get();
             Long userId = user.getId();
-            // 2-1. 폴더만 만드는 과정 -> media/profile/{username}/1/
-            String profileDir = String.format("media/profile/%s/%d/",username, userId);
+            // 2-1. 폴더만 만드는 과정 -> media/profile/{username}/
+            String profileDir = String.format("media/profile/%s/",username);
             try {
                 Files.createDirectories(Path.of(profileDir));
             } catch (IOException e) {
@@ -52,7 +52,6 @@ public class UserService {
             // 2-3. 폴더와 파일 경로를 포함한 이름 만들기
 
             String profilePath = profileDir + profileFilename;
-            // profile/1/{username}.{extension}
 
             // 3. MultipartFile 을 저장하기
             try {
@@ -61,7 +60,7 @@ public class UserService {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
             // 4. UserEntity 업데이트 (정적 프로필 이미지를 회수할 수 있는 URL)
-            user.setProfile_img(String.format("/static/%s", profileFilename));
+            user.setProfile_img(String.format("/static/profile/%s/%s", username, profileFilename));
             userRepository.save(user);
         }
     }
