@@ -1,0 +1,666 @@
+{
+	"info": {
+		"_postman_id": "8367f23d-3d35-4c4c-8186-36a96e360286",
+		"name": "mutsasns",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25240839"
+	},
+	"item": [
+		{
+			"name": "POST /token/register  회원가입 Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"mingyun\",\r\n    \"password\": \"1234\",\r\n    \"passwordCheck\": \"1234\",\r\n    \"email\": \"mk@naver.com\",\r\n    \"phone\": \"010-1234-5678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/token/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"token",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /token/issue 로그인",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"mingyun\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/token/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"token",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /token/issue 로그인한 user check Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5neXVuIiwiaWF0IjoxNjkxMjg5MDk4LCJleHAiOjE2OTEyOTI2OTh9.7Q3EwExhCYEfo8elV3svinYbdA68fxZNGxdwMfjgDBcuuX4amwscU6ObbtWBaUIaDetb_gq_knoiMD8t7wSjnA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7070/token/check",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"token",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/mutsasns/user/profileimage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjkxNDkwMjAwLCJleHAiOjE2OTE0OTM4MDB9.tqnEHmvGFZs88xrifX4Jyzb_LFgy990hoq4fzPBr8Fiuws8buhOFqbYnEQPvjg3T9MbDn7nsgSa1AT-_O3v5ng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/mingy/OneDrive/바탕 화면/neymar.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/user/profileimage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"user",
+						"profileimage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/mutsasns/feed/posting",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5neXVuIiwiaWF0IjoxNjkxNDIyNzE5LCJleHAiOjE2OTE0MjYzMTl9.s2fWNhdDEcbEYifV8qo16_LznNU8EY4snIqNZ6VqPJExX_39oLHUdRxxo-LlMpTd9eGEM-kcjI_cu1G64Qheow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "첫 게시글",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "멋사 sns 좋아요!",
+							"type": "text"
+						},
+						{
+							"key": "imageList",
+							"type": "file",
+							"src": "/C:/Users/mingy/OneDrive/바탕 화면/neymar.jpg"
+						},
+						{
+							"key": "imageList",
+							"type": "file",
+							"src": "/C:/Users/mingy/OneDrive/바탕 화면/kangin.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/posting",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"posting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/mutsasns/feed/read",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjkxNDkwMjAwLCJleHAiOjE2OTE0OTM4MDB9.tqnEHmvGFZs88xrifX4Jyzb_LFgy990hoq4fzPBr8Fiuws8buhOFqbYnEQPvjg3T9MbDn7nsgSa1AT-_O3v5ng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/read?page=0&limit=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"read"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/mutsasns/feed/read/{articleId}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjkxNDkwMjAwLCJleHAiOjE2OTE0OTM4MDB9.tqnEHmvGFZs88xrifX4Jyzb_LFgy990hoq4fzPBr8Fiuws8buhOFqbYnEQPvjg3T9MbDn7nsgSa1AT-_O3v5ng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/read/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"read",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE /api/mutsasns/feed/articles/{articleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjkxNDkwMjAwLCJleHAiOjE2OTE0OTM4MDB9.tqnEHmvGFZs88xrifX4Jyzb_LFgy990hoq4fzPBr8Fiuws8buhOFqbYnEQPvjg3T9MbDn7nsgSa1AT-_O3v5ng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "첫 게시글 수정",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "멋사 sns 좋아요!",
+							"type": "text"
+						},
+						{
+							"key": "updateImageList",
+							"type": "file",
+							"src": "/C:/Users/mingy/OneDrive/바탕 화면/minjae.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/articles/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"articles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE /api/mutsasns/feed/articles/{articleId}/images/{imageId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQ1ODkxOSwiZXhwIjoxNjkxNDYyNTE5fQ.l7lxlLW3K9GGvVlZgaBMgezwN0zw2W0-goPHCFNlv7HaslGmnSUj77x5f-o9Da2MxEFau94KmiEvP3GqM70C3Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/articles/1/images/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"articles",
+						"1",
+						"images",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/mutsasns/feed/articles/{articleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaW5neXVuIiwiaWF0IjoxNjkxMzczNzc0LCJleHAiOjE2OTEzNzczNzR9.XjtygNrLgVga6TVnpF1AdQ-F-aDAnwwFgyPkBXyL2nfOmuD2SnjnEFoIKazuvWynBpV-Ad5QlvJg0v5Z76uC8g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/articles/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"articles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/mutsasns/feed/posting/{articleId}/comment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQ5MDMxOSwiZXhwIjoxNjkxNDkzOTE5fQ.iLzvFZAYHmvDcHHaD6QUnOWU-QIxK6bkBhzTAYbwJlWInHr5KbU9dyfHuuYIAKex2MN9piIzDHCgZ5HEJQgQEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"맞팔해요~\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/posting/1/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"posting",
+						"1",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/mutsasns/feed/article/{articleId}/comment/{commentId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQ5MDMxOSwiZXhwIjoxNjkxNDkzOTE5fQ.iLzvFZAYHmvDcHHaD6QUnOWU-QIxK6bkBhzTAYbwJlWInHr5KbU9dyfHuuYIAKex2MN9piIzDHCgZ5HEJQgQEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"언팔해요~\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/article/1/comment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"article",
+						"1",
+						"comment",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/mutsasns/article/{articleId}/comment/{commentId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQwMTE0MiwiZXhwIjoxNjkxNDA0NzQyfQ.SBc7AKzltrh9csKKl0Nh6tFxsCizhzlViefktPXy9PVb9MacAQAJR0B8bVcA1VqHUgVFiJqDv4u-mn3mVsTiDQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/article/1/comment/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"article",
+						"1",
+						"comment",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/mutsasns/feed/article/{articleId}/like",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQ5MDMxOSwiZXhwIjoxNjkxNDkzOTE5fQ.iLzvFZAYHmvDcHHaD6QUnOWU-QIxK6bkBhzTAYbwJlWInHr5KbU9dyfHuuYIAKex2MN9piIzDHCgZ5HEJQgQEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/feed/article/1/like",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"feed",
+						"article",
+						"1",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/mutsasns/userInfo/{userId}/read",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQyNjYwNywiZXhwIjoxNjkxNDMwMjA3fQ.Qxj8vy2dC8MV4ZUVZ-YS3-xlJXI43CmyJpIOS3bETGXOeF9vxFAH69-jUHgzcS0pGblbq5B4R0-2DnUK2q3a0A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/userInfo/1/read",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"userInfo",
+						"1",
+						"read"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/mutsasns/userInfo/{userId}/follow",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY5MTQ5MDMxOSwiZXhwIjoxNjkxNDkzOTE5fQ.iLzvFZAYHmvDcHHaD6QUnOWU-QIxK6bkBhzTAYbwJlWInHr5KbU9dyfHuuYIAKex2MN9piIzDHCgZ5HEJQgQEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:7070/api/mutsasns/userInfo/1/follow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7070",
+					"path": [
+						"api",
+						"mutsasns",
+						"userInfo",
+						"1",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
