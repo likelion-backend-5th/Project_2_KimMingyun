@@ -84,7 +84,7 @@ public class ArticleService {
                 String originalFilename = img.getOriginalFilename();
                 String[] fileNameSplit = originalFilename.split("\\.");
                 String extension = fileNameSplit[fileNameSplit.length - 1];
-                String articleFilename = username + i + "." + extension;
+                String articleFilename = username + "_" + i + "." + extension;
                 i ++; // i를 증가시켜 다음 이미지에 대한 파일 이름 생성
 
                 // 폴더와 파일 경로를 포함한 이름 만들기
@@ -188,7 +188,7 @@ public class ArticleService {
                 String originalFilename = img.getOriginalFilename();
                 String[] fileNameSplit = originalFilename.split("\\.");
                 String extension = fileNameSplit[fileNameSplit.length - 1];
-                String articleFilename = username + lastImageIndex + "." + extension;
+                String articleFilename = username + "_" + lastImageIndex + "." + extension;
                 lastImageIndex ++; // lastImageIndex를 증가시켜 다음 이미지에 대한 파일 이름 생성
 
 
@@ -254,7 +254,6 @@ public class ArticleService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        // DB에서 삭제
         articleImagesRepository.deleteById(imageId);
 
     }

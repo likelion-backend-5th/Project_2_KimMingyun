@@ -28,12 +28,8 @@ public class UserFriendsEntity extends BaseEntity {
 
     private Long toUser;
 
-    @OneToMany
-    @JoinColumn(name = "user_friends_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // 수정 업뎃 하면 one 쪽 엔티티에서도 반영되게
     @ToString.Exclude
-    private List<UserFollowsAndUserFriends> userFollowsAndUserFriendsList = new ArrayList<>();
+    private UserEntity user;
 
-    public void addUserFollowsAndUserFriends(UserFollowsAndUserFriends... userFollowsAndUserFriends) {
-        Collections.addAll(this.userFollowsAndUserFriendsList, userFollowsAndUserFriends);
-    }
 }
