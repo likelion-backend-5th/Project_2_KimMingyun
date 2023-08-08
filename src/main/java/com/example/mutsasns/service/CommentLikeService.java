@@ -1,6 +1,5 @@
 package com.example.mutsasns.service;
 
-import com.example.mutsasns.dto.article.ArticleRequestDto;
 import com.example.mutsasns.dto.comment.CommentRequestDto;
 import com.example.mutsasns.entity.ArticleEntity;
 import com.example.mutsasns.entity.CommentEntity;
