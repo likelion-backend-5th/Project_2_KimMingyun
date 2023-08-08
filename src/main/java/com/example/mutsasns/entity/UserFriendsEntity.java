@@ -17,7 +17,6 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "user_friends")
-@Where(clause = "deleted = false")
 public class UserFriendsEntity extends BaseEntity {
 
     @Id
